@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-   <div class="container">
+   <div class="container-fluid">
        <div class="row justify-content-center">
            <div class="col-md-10">
                <div class="card">
@@ -15,6 +15,12 @@
                        {{ __('Pengelolaan Buku') }}
                        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#tambahBukuModal"><i class="fa fa-plus"></i> Tambah Data</button>
                        <button class="btn btn-secondary float-right" data-toggle="modal"><a href="{{ route('admin.print.books') }}" target="_blank"><i class="fa fa-print"></i> Cetak PDF</a></button>
+                       <div class="btn-group" role="group" aria-label="Basic example">
+                           <a href="{{ route('admin.book.export') }}" class="btn btn-info" target="_blank">Export</a>
+                           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#importDataModal">Import</button>
+                       </div>
+                       <hr/>
+                       <table id="table-data" class="table table-borderer">
                     </div>
                    <div class="card-body">
                        <table id="table-data" class="table table-borderer display nowrap" style="width:100%">
@@ -186,6 +192,34 @@
     </div>
   </div>
 
+{{-- Modal Import Book --}}
+<div class="modal fade" id="importDataModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <form method="POST" action="{{ route('admin.book.import') }}" method="post" enctype="multipart/form-data">
+                    @method('POST')
+                    @csrf                
+                    <div class="form-group">
+                        <label for="cover">Upload Data</label>
+                        <input type="file" class="form-control" name="file">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- end Modal Import Book --}}
 @stop
 @section('js')
     <script>
